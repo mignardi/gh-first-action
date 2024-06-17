@@ -9,7 +9,7 @@ jobs: #By default runs in parallel, if u want sequential use the keyword needs:
       - name: Send message
         run: echo "TEST JOB"
   deploy:
-  needs: test
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
