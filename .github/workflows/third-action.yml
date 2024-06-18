@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
-        uses: actions/checkout@v3xd
+        uses: actions/checkout@v3
       - name: Send msg
         run: echo "Hola Steven"
       - name: Upload Artifact
