@@ -1,0 +1,21 @@
+name: Third Workflow
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - 'automation/**' #automation/CBENTSPNG
+jobs:
+  Upload Artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Send msg
+        run: echo "Hola Steven"
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: mis-artefactos
+          path: hola.txt
+    
