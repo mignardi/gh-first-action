@@ -1,8 +1,10 @@
 name: Fourth Workflow
 on: push
+env:
+  MONGO_DB_NAME: ${{secrets.MONGO_DB_NAME}}
 jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
       - name: Print msg
-        run: echo "value is ${{secret.MONGO_DB_NAME}}"
+        run: echo "value is ${{env.MONGO_DB_NAME}}"
