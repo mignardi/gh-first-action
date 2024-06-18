@@ -1,0 +1,10 @@
+name: Fourth Workflow
+on: push
+env:
+  MONGO_DB_NAME: gha_demo 
+jobs:
+  Testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print msg
+      run: echo $MONGO_DB_NAME 
