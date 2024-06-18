@@ -6,7 +6,7 @@ on:
       - main
       - 'automation/**' #automation/CBENTSPNG
 jobs:
-  Upload Artifact:
+  Upload-Artifact:
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
