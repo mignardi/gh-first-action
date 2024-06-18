@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print msg
-        run: echo $MONGO_DB_NAME 
+        run: echo "value is ${{env.MONGO_DB_NAME}}
