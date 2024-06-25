@@ -1,0 +1,9 @@
+name: Bugs input
+on: workflow_dispatch 
+jobs: 
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send message
+        run: echo "BUGS TICKETS WORKFLOW"
+
