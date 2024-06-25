@@ -2,7 +2,7 @@ name: Bugs input
 on:
   workflow_dispatch:
     inputs:
-      bug_1_jira_key:
+      bug_1_jira_link:
         description: Bug 1 Jira Link (e.g. https://paramount.atlassian.net/browse/CBSCOMDIS-5769)
         required: false
         type: string
@@ -15,9 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get info about bug 1
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.bug_1_jira_key != '' && startsWith(github.event.inputs.bug_1_jira_key, 'https://paramount.atlassian.net/')
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.bug_1_jira_link != '' && startsWith(github.event.inputs.bug_1_jira_link, 'https://paramount.atlassian.net/')
         run: |
-          BUG_1_JIRA_KEY="${{ inputs.bug_1_jira_key }}"
+          BUG_1_JIRA_LINK="${{ inputs.bug_1_jira_link }}"
           BUG_1_DESCRIPTION="${{ inputs.bug_1_description }}"
-          echo "TEST"
-          echo -e "<https://paramount.atlassian.net/browse/$BUG_1_JIRA_KEY|$BUG_1_DESCRIPTION>"
+          BUG_1="<${BUG_1_JIRA_LINK}|${BUG_1_DESCRIPTION}>"
+          echo "BUG_1=${BUG_1}" >> $GITHUB_ENV
+          echo "Bug information stored in environment variable BUG_1"
+      - name: Print bug info
+        run: |
+          echo "Sending Slack report with bug info: ${BUG_1}"
