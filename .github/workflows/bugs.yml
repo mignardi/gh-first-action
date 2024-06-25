@@ -10,6 +10,14 @@ on:
         description: Bug 1 Description (e.g. [AND][USA][MOBILE][P+] Error message on Support Page)
         required: false
         type: string
+      bug_2_jira_link:
+        description: Bug 1 Jira Link (e.g. https://paramount.atlassian.net/browse/CBSCOMDIS-5769)
+        required: false
+        type: string
+      bug_2_description:
+        description: Bug 1 Description (e.g. [AND][USA][MOBILE][P+] Error message on Support Page)
+        required: false
+        type: string
 jobs: 
   deploy:
     runs-on: ubuntu-latest
@@ -20,6 +28,13 @@ jobs:
           BUG_1_JIRA_LINK="${{ inputs.bug_1_jira_link }}"
           BUG_1_DESCRIPTION="${{ inputs.bug_1_description }}"
           BUGS="<${BUG_1_JIRA_LINK}|${BUG_1_DESCRIPTION}>"
+          echo "BUGS=${BUGS}" >> $GITHUB_ENV
+      - name: Get info about bug 2
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.bug_2_jira_link != '' && startsWith(github.event.inputs.bug_2_jira_link, 'https://paramount.atlassian.net/')
+        run: |
+          BUG_2_JIRA_LINK="${{ inputs.bug_2_jira_link }}"
+          BUG_2_DESCRIPTION="${{ inputs.bug_2_description }}"
+          BUGS="<${BUG_2_JIRA_LINK}|${BUG_2_DESCRIPTION}>"
           echo "BUGS=${BUGS}" >> $GITHUB_ENV
       - name: Print bug info
         run: |
