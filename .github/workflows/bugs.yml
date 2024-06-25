@@ -3,17 +3,21 @@ on:
   workflow_dispatch:
     inputs:
       bug_1_jira_key:
-        description: Bug 1 Jira key (e.g. CBSENTAPLS-3601)
+        description: Bug 1 Jira key (e.g. PLAB-3200)
         required: false
         type: string
       bug_1_description:
-        description: Bug 1 Description (e.g. [APL][P+][US][iOS] Shows Details - PIN not shown when playing an extra clip)
+        description: Bug 1 Description (e.g. [AND][USA][MOBILE][P+] Error message on Support Page)
         required: false
         type: string
 jobs: 
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Send message
-        run: echo "BUGS TICKETS WORKFLOW"
-
+      - name: Get info about bug 1
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.bug_1_jira_key != ''
+        run: |
+          BUG_1_JIRA_KEY="${{ inputs.bug_1_jira_key }}"
+          BUG_1_DESCRIPTION="${{ inputs.bug_1_description }}"
+          echo "TEST"
+          echo -e "<https://paramount.atlassian.net/browse/$BUG_1_JIRA_KEY|$BUG_1_DESCRIPTION>"
