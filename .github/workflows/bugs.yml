@@ -19,9 +19,8 @@ jobs:
         run: |
           BUG_1_JIRA_LINK="${{ inputs.bug_1_jira_link }}"
           BUG_1_DESCRIPTION="${{ inputs.bug_1_description }}"
-          BUG_1="<${BUG_1_JIRA_LINK}|${BUG_1_DESCRIPTION}>"
-          echo "BUG_1=${BUG_1}" >> $GITHUB_ENV
-          echo "Bug information stored in environment variable BUG_1"
+          BUGS="<${BUG_1_JIRA_LINK}|${BUG_1_DESCRIPTION}>"
+          echo "BUGS=${BUGS}" >> $GITHUB_ENV
       - name: Print bug info
         run: |
-          echo "Sending Slack report with bug info: ${BUG_1}"
+          echo "Sending Slack report with bug info: ${BUGS}"
