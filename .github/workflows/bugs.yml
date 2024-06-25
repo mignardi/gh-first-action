@@ -11,31 +11,52 @@ on:
         required: false
         type: string
       bug_2_jira_link:
-        description: Bug 1 Jira Link (e.g. https://paramount.atlassian.net/browse/CBSCOMDIS-5769)
+        description: Bug 2 Jira Link (e.g. https://paramount.atlassian.net/browse/CBSCOMDIS-5769)
         required: false
         type: string
       bug_2_description:
-        description: Bug 1 Description (e.g. [AND][USA][MOBILE][P+] Error message on Support Page)
+        description: Bug 2 Description (e.g. [AND][USA][MOBILE][P+] Error message on Support Page)
+        required: false
+        type: string
+      bug_3_jira_link:
+        description: Bug 3 Jira Link (e.g. https://paramount.atlassian.net/browse/CBSCOMDIS-5769)
+        required: false
+        type: string
+      bug_3_description:
+        description: Bug 3 Description (e.g. [AND][USA][MOBILE][P+] Error message on Support Page)
         required: false
         type: string
 jobs: 
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Initialize BUGS variable
+        run: echo "BUGS=" >> $GITHUB_ENV
+      
       - name: Get info about bug 1
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.bug_1_jira_link != '' && startsWith(github.event.inputs.bug_1_jira_link, 'https://paramount.atlassian.net/')
         run: |
-          BUG_1_JIRA_LINK="${{ inputs.bug_1_jira_link }}"
-          BUG_1_DESCRIPTION="${{ inputs.bug_1_description }}"
-          BUGS="<${BUG_1_JIRA_LINK}|${BUG_1_DESCRIPTION}>"
-          echo "BUGS=${BUGS}" >> $GITHUB_ENV
-      - name: Get info about bug 2
+          BUG_1_JIRA_LINK="${{ github.event.inputs.bug_1_jira_link }}"
+          BUG_1_DESCRIPTION="${{ github.event.inputs.bug_1_description }}"
+          BUG_1_INFO="<${BUG_1_JIRA_LINK}|${BUG_1_DESCRIPTION}>"
+          echo "BUGS=${BUG_1_INFO}" >> $GITHUB_ENV
+
+      - name: Append info about bug 2
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.bug_2_jira_link != '' && startsWith(github.event.inputs.bug_2_jira_link, 'https://paramount.atlassian.net/')
         run: |
-          BUG_2_JIRA_LINK="${{ inputs.bug_2_jira_link }}"
-          BUG_2_DESCRIPTION="${{ inputs.bug_2_description }}"
-          BUGS="<${BUG_2_JIRA_LINK}|${BUG_2_DESCRIPTION}>"
-          echo "BUGS=${BUGS}" >> $GITHUB_ENV
+          BUG_2_JIRA_LINK="${{ github.event.inputs.bug_2_jira_link }}"
+          BUG_2_DESCRIPTION="${{ github.event.inputs.bug_2_description }}"
+          BUG_2_INFO="<${BUG_2_JIRA_LINK}|${BUG_2_DESCRIPTION}>"
+          echo "BUGS=${{ env.BUGS }} ${BUG_2_INFO}" >> $GITHUB_ENV
+
+      - name: Append info about bug 3
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.bug_3_jira_link != '' && startsWith(github.event.inputs.bug_3_jira_link, 'https://paramount.atlassian.net/')
+        run: |
+          BUG_3_JIRA_LINK="${{ github.event.inputs.bug_3_jira_link }}"
+          BUG_3_DESCRIPTION="${{ github.event.inputs.bug_3_description }}"
+          BUG_3_INFO="<${BUG_3_JIRA_LINK}|${BUG_3_DESCRIPTION}>"
+          echo "BUGS=${{ env.BUGS }} ${BUG_3_INFO}" >> $GITHUB_ENV
+
       - name: Print bug info
         run: |
           echo "Sending Slack report with bug info: ${BUGS}"
