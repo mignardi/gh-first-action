@@ -10,22 +10,6 @@ on:
         description: Bug 1 Description (e.g. [APL][P+][US][iOS] Shows Details - PIN not shown when playing an extra clip)
         required: false
         type: string
-      bug_2_jira_key:
-        description: Bug 2 Jira key (e.g. CBSENTAPLS-3601)
-        required: false
-        type: string
-      bug_2_description:
-        description: Bug 2 Description (e.g. [APL][P+][US][iOS] Shows Details - PIN not shown when playing an extra clip)
-        required: false
-        type: string
-      bug_3_jira_key:
-        description: Bug 3 Jira key (e.g. CBSENTAPLS-3601)
-        required: false
-        type: string
-      bug_3_description:
-        description: Bug 3 Description (e.g. [APL][P+][US][iOS] Shows Details - PIN not shown when playing an extra clip)
-        required: false
-        type: string
 jobs: 
   deploy:
     runs-on: ubuntu-latest
