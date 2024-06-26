@@ -26,12 +26,12 @@ on:
         description: BUG 3 Description (e.g. [AND][USA][MOBILE][P+] Error message on Support Page)
         required: false
         type: string
-jobs: 
+jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Initialize BUGS array
-        run: echo "BUGS_ARRAY=()" >> $GITHUB_ENV
+      - name: Initialize BUGS variable
+        run: echo "BUGS=''" >> $GITHUB_ENV
 
       - name: Get info about Bug 1
         if: startsWith(github.event.inputs.bug_1_description, '[AND]') && github.event.inputs.bug_1_jira_link != '' && startsWith(github.event.inputs.bug_1_jira_link, 'https://paramount.atlassian.net/')
@@ -39,7 +39,7 @@ jobs:
           BUG_1_JIRA_LINK="${{ github.event.inputs.bug_1_jira_link }}"
           BUG_1_DESCRIPTION="${{ github.event.inputs.bug_1_description }}"
           BUG_1_INFO="<${BUG_1_JIRA_LINK}|${BUG_1_DESCRIPTION}>"
-          echo "BUGS_ARRAY+=('${BUG_1_INFO}')" >> $GITHUB_ENV
+          echo "BUGS+=\"${BUG_1_INFO}\n\"" >> $GITHUB_ENV
 
       - name: Append info about Bug 2
         if: startsWith(github.event.inputs.bug_2_description, '[AND]') && github.event.inputs.bug_2_jira_link != '' && startsWith(github.event.inputs.bug_2_jira_link, 'https://paramount.atlassian.net/')
@@ -47,7 +47,7 @@ jobs:
           BUG_2_JIRA_LINK="${{ github.event.inputs.bug_2_jira_link }}"
           BUG_2_DESCRIPTION="${{ github.event.inputs.bug_2_description }}"
           BUG_2_INFO="<${BUG_2_JIRA_LINK}|${BUG_2_DESCRIPTION}>"
-          echo "BUGS_ARRAY+=('${BUG_2_INFO}')" >> $GITHUB_ENV
+          echo "BUGS+=\"${BUG_2_INFO}\n\"" >> $GITHUB_ENV
 
       - name: Append info about Bug 3
         if: startsWith(github.event.inputs.bug_3_description, '[AND]') && github.event.inputs.bug_3_jira_link != '' && startsWith(github.event.inputs.bug_3_jira_link, 'https://paramount.atlassian.net/')
@@ -55,18 +55,8 @@ jobs:
           BUG_3_JIRA_LINK="${{ github.event.inputs.bug_3_jira_link }}"
           BUG_3_DESCRIPTION="${{ github.event.inputs.bug_3_description }}"
           BUG_3_INFO="<${BUG_3_JIRA_LINK}|${BUG_3_DESCRIPTION}>"
-          echo "BUGS_ARRAY+=('${BUG_3_INFO}')" >> $GITHUB_ENV
+          echo "BUGS+=\"${BUG_3_INFO}\n\"" >> $GITHUB_ENV
 
-      - name: Join BUGS array with newline
-        run: |
-          if [ -z "${BUGS_ARRAY}" ]; then
-            BUGS=""
-          else
-            IFS=$'\n'
-            BUGS=$(echo "${BUGS_ARRAY[*]}")
-          fi
-          echo "BUGS=${BUGS}" >> $GITHUB_ENV
-          
       - name: Print bug info
         run: |
           if [ -z "${BUGS}" ]; then
