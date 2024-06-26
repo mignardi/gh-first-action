@@ -23,7 +23,7 @@ on:
         required: false
         type: string
       bug_3_description:
-        description: BUG 4 Description (e.g. [AND][USA][MOBILE][P+] Error message on Support Page)
+        description: BUG 3 Description (e.g. [AND][USA][MOBILE][P+] Error message on Support Page)
         required: false
         type: string
 jobs: 
@@ -59,7 +59,12 @@ jobs:
 
       - name: Join BUGS array with newline
         run: |
-          BUGS=$(IFS=$'\n'; echo "${BUGS_ARRAY[*]}")
+          if [ -z "${BUGS_ARRAY}" ]; then
+            BUGS=""
+          else
+            IFS=$'\n'
+            BUGS=$(echo "${BUGS_ARRAY[*]}")
+          fi
           echo "BUGS=${BUGS}" >> $GITHUB_ENV
           
       - name: Print bug info
